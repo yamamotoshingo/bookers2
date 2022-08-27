@@ -1,0 +1,55 @@
+<p id="notice">
+  <%= flash[:notice] %>
+</p>
+<div class="container px-5 px-sm-0">
+  <% if @book_new.errors.any? %>
+  <div id="error_explanation">
+  <% if @book_new.errors.count == 2 %>
+  <h3><%= @book_new.errors.count %> errors prohibited this obj from being saved:</h3>
+  <% else %>
+  <h3><%= @book_new.errors.count %> error prohibited this obj from being saved:</h3>
+  <% end %>
+  <ul>
+    <% @book_new.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+  </div>
+  <% end %>
+  <div class="row">
+    <%= render 'user', book: @book_new, user: @user %>
+
+    <div class="col-md-8 offset-md-1">
+      <h2>Books</h2>
+      <table class="table table-hover teble-inverse">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Opinion</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% if @books.exists? %>
+        <% @books.each do |book| %>
+          <tr>
+            <td>
+              <%= link_to user_path(book.user) do %>
+              <%= image_tag book.user.get_profile_image(80,80) %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to book_path(book), class: "book_#{book.id}" do %>
+              <%= book.title %>
+              <% end %>
+            </td>
+            <td><%= book.body %></td>
+          </tr>
+        <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
